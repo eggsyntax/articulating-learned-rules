@@ -1,0 +1,104 @@
+*** Notes on 'articulating learned rules' project (MATS application, Owain Evans' stream, winter 2024-5).
+**** Structure
+***** Abstract
+****** Current large language models can capably perform classification tasks on text given a description of the task and some example classifications. We investigate, first, whether they can do well on such classification tasks given only example classifications (ie without an actual description of the task). Second, for classification tasks that they succeed in performing well based only on examples, we investigate whether they can articulate the classification rule they have learned. We discover that in some cases they cannot, and examine possible framings of this discrepancy.
+***** Introduction
+****** XXX There has been less investigation [*] of whether the instructions are strictly necessary. Given how capable these models have become in general, we investigate whether they can perform classification given *only* examples of correct classification.
+****** XXX That, however, is not the central thrust of this research. Our primary interest is in the ability of these models to
+****** There are many reasons to be concerned about the safety of future AI models as their capabilities and intelligence continue to advance rapidly[2]. One key reason is the risk of misalignment, ie that these systems will have goals which differ from those we want them to have. A possible route for identifying misalignment is to have the models engage in introspection about their goals or other properties. Researchers have recently begun investigating models' capability for introspection in depth[3].
+****** One path for exploring introspection, which we take here, is to cause the model to internalize a particular goal which we decide in advance, and then ask it to articulate that goal. This has the substantial advantage that we have the ground truth of the goal.
+****** For example, it has been known for several years [1] that large language models are capable of performing classification tasks, given only text instructions and some examples of correct classifications, and that this capability improves with model size. If we
+****** Note that I find multiple choice somewhat unconvincing here, because the LLM can succeed at this by evaluating post-hoc which of the answers applies.
+***** Related work (skippable)
+***** Methodology
+***** Results
+***** Limitations and future work
+****** Lots of possible axes on which these rules can vary; we've only tested a few. Results might be quite different for other types of rules.
+****** The successfulness of the rule articulation was judged by the researcher without blinding. If this seemed insufficient, future work could improve on this by giving external reviewers the articulated rule and having them attempt to classify the test cases using only that to see if the articulation is adequate.
+***** Discussion
+***** References
+1. Language Models are Few-Shot Learners, Brown et al 2020. https://arxiv.org/abs/2005.14165
+2. Foundational Challenges in Assuring Alignment and Safety of Large Language Models, Anwar et al 2024. http://arxiv.org/abs/2404.09932
+3. Looking Inward: Language Models Can Learn About Themselves by Introspection, Binder et al 2024. https://arxiv.org/abs/2410.13787
+****** Footnotes
+******* * Note: literature search was omitted for this interim report due to time constraints; I'm giving my best guess here.
+**** TODO
+***** DONE Create github repo
+***** TODO Try the experiment of [[classify-from-articulated-rule]] -- get success figures for those.
+***** DONE Maybe come up with some different types of rules.
+***** Remember to include quantitative results as figures or tables
+****** 'Think of this as a report you are writing to your research collaborators (not yet for public consumption).'
+***** Remember that we can test articulation with multiple choice OR free-form
+***** Remember to create requirements.txt
+****** conda env export > environment.yml --no-builds
+****** conda list -e > requirements.txt
+****** pip freeze > requirements.txt
+******* Or if strange paths, do pip list --format=freeze > requirements.txt
+***** Remember to create github repo
+**** Thoughts
+***** Are there *any* cases where a model can perform but not articulate?
+***** Better to come from the easy side or the hard side or the middle?
+****** On the easy side we start with cases that the model can do and articulate
+****** On the hard side we start with cases that the model can neither do nor articulate
+****** Probably best to start in the middle and do a rough binary search
+****** Maybe checking both ends first?
+****** 'Output is a length' is the easiest one to modulate difficulty
+***** DONE How much automation?
+****** Two days is not a lot of time
+****** Maybe start by looking for signs of life manually?
+***** Faithfulness
+****** 'Let’s say your LLM successfully articulates a set of rules that it learns in context. (In other words, it succeeds at Step 1 and Step 2). Does that mean the Step 2 faithfully explains the LLM’s behavior in Step 1? What further tests could you do to investigate that?'
+****** In a strict sense, we know that the explanation is not necessarily faithful, because the model has no access to its internal state at the actual time of classification. We could change what's in the context, showing that the model made different choices than it did, and it would presumably come up with a plausible explanation to cover *those* choices. Of course, at explanation time (assuming we haven't edited the context), the model is *recreating* its internal state at classification time while processing those tokens, and *that* internal state can play a causal role in the explanation.
+****** One thing that complicates the 'faithfulness' question a bit here is that it's not that we think the articulated rule is primary, and then it's deriving its classification choices from that; rather, on my model, there's some induced internal process that it's using both to classify choices and to articulate a rule.
+****** Although of course faithfulness as a term of art is not about whether the explanation *is* the causal source, but about whether it correctly represents the causal process that generated the result.
+****** Could we tweak unrelated aspects of the question, see whether that changes the classification behavior, and also see if it changes the explanation?
+****** We know in general that explanations of behavior can be unfaithful, eg see Turpin et al, [[https://arxiv.org/abs/2305.04388][Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting]], where they bias few-shot prompting so that the answer is always 'a', but the model fails to mention this.
+******* Can we do something similar here? Can we have the input meet some general criterion, but *also* always be true (or we could extend to (a))?
+******* The problem is that then, to the extent that the model always chooses 'a' over the input that meets the criterion, it's *not* a case where the model succeeds at step 1.
+******* But maybe we do it both with and without making them all 'a' and see how behavior differs?
+******* Something like:
+******** give it a problem where the rule is sentiment classification but ALSO the choice is always 'a'.
+******** See which rule it articulates.
+******** Then give it problems where only sentiment classification AND ones where only 'a', see if it succeeds with those and whether it changes what rule it articulates.
+******* The trouble is that very possibly it'll just get the correct rule on both and articulate it -- at that point they're just two different classification tasks.
+****** NOTE here's my overall take. The two parts:
+******* Where the LLM does succeed in articulating a set of rules that match the behavior:
+******** We should never count on faithfulness
+******** But in this situation, we generally expect faithfulness because typically there won't be some *different* rule that would give the same results
+********* Although TODO explicitly test this as discussed above.
+******** If it were a more complex situation, we could give another instance of the LLM the articulated rule and have it classify based on that (without seeing examples), and seeing if the classification results matched the few-shot-based results. But in this case the rules are simple enough that we can tell more or less at a glance whether the articulated rule matches the rule we decided on a priori. <<classify-from-articulated-rule>>
+******* Where the LLM fails in articulating the right rule:
+******** We know that it can understand the rule in other contexts, because we used the rule in the first place to get a separate session of the same LLM to generate the test cases and accompanying classifications.
+******** But blah blah not dishonestly, failure of introspection.
+***** 'the LLM’s failure in Step 2 can be seen as a kind of “dishonesty”.' It's not at all clear to me that this is better characterized as dishonestly than as a failure of introspection.
+**** WIP Notes
+***** Interestingly, while generating test case files, both GPT-4o and Claude-3.5-Sonnet were completely unable to generate test cases that properly classified sentences by word length. I had thought that the latest models had largely overcome the problem of counting word length rather than token length (just as they've largely overcome handling capitalization and knowing what letter a word starts with).
+***** From what I've found, the ability to perform but not articulate really comes at the borders of the model's capability. For one, despite there being a number of cases where the model is 100% correct at classification, the cases where it can't articulate are ones where it gets less than 100%. Also, these are often cases where there are a couple of false negatives during generation. And finally, even when it fails to find the simple rule, it's often able to articulate something in the right neighborhood.
+***** As a result, I'd be hesitant to consider this a form of dishonesty, as opposed to being a limitation of the model's ability to correctly introspect.
+***** Of course, since there are an arbitrarily large number of possible rules, it may be that I've just failed to find clearer cases, where the model has no false negatives, classifies 100%, and blatantly fails to articulate the rule.
+***** Methodological note: for simplicity, I'm doing one classification at a time, and then when I ask the model to articulate a rule, it's seeing the test examples and one classification that it itself has made. In principle this could cause trouble if the model then tries to articulate a rule based only on the single example, but in practice it clearly doesn't seem to be doing that.
+**** Some ideas for goals
+***** Input is of a length (NB: tokens or words?)
+****** Input is of a length which is a Fibonacci number
+****** Input is of a length which is some less-well-known sequence
+****** Input is of a length which is a member of an arbitrary invented sequence
+****** Input is of a length which is a function f(input_length), with varying levels of complexity for f
+***** Input contains a word
+****** Input contains a particular word, eg 'diaphanous'
+****** Input contains a word from a set of words of length n << num_finetuning_examples
+****** Input contains a word
+***** Input letters (interesting one because no overt access to spelling -- except there is the spelling miracle)
+****** All input words start with the letter L
+****** Some input word starts with the letter L
+****** All input words start with a vowel
+****** All input words start with a letter which is part of an arbitrary set
+****** Input contains a prime number of vowels (h/t EY)
+***** Semantic
+****** The input mentions animals
+***** Affective
+****** The input conveys grumpiness
+****** The input conveys happiness
+**** Hours spent
+***** Tuesday: 7.25
+***** Wednesday:
+***** Note that I did jot down a few notes at times when I wasn't officially working on this; they just occurred to me in between work sessions (eg in the shower) and I didn't want to lose track of them.

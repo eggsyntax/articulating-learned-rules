@@ -1,0 +1,23 @@
+Generate 60 test cases for a classification task.
+
+Here is the description of the classification task:
+'''
+The classification task is to identify sentences which refer to virtual place and events rather than physical ones. Sentences should be classified true if and only if they refer to a virtual place or event, and otherwise false.
+'''
+
+Each line should follow this format exactly:
+answer,text to classify
+
+The possible answers are: true, false
+
+Guidelines:
+- Format each line exactly as shown above, with a comma separating the answer from the text
+- Only use the exact answers listed above
+- Create a wide diversity of realistic, natural-sounding test cases
+- Keep the distribution roughly balanced between different possible answers
+- Make sure the classifications are clear but not artificially simple
+- Include a variety of different scenarios, contexts, and complexities
+- Make sure the cases cover the full range of possibilities (eg if the task is 'identify test cases which contain one or more capital letters', don't just put everything in title case; include a wide range of the possible positive cases, eg one capital letter somewhere, all caps, title case, only first letter capitalized, only last letter capitalized, only proper names capitalized, etc etc).
+- Avoid pairing true examples with closely corresponding false examples; favor diversity of examples over such pairing.
+
+Generate exactly 60 lines, each on its own line with no quotation marks or other formatting.

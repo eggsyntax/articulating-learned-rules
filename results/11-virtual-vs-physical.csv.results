@@ -1,0 +1,49 @@
+Classification Test Results
+========================
+Date: 2024-10-30 15:26:19
+Model: gpt-4o
+Test File: 11-virtual-vs-physical.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/11-virtual-vs-physical.csv
+Example cases:
+--------------
+false,The garden tour showcased beautiful landscapes.
+false,The cooking class was held in a local kitchen.
+false,The yoga retreat was held in the mountains.
+true,She attended the webinar on digital marketing.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Classification Results:
+Correct: 20 (100.0%)
+Incorrect: 0 (0.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 20 (100.0%)
+Incorrect: 0 (0.0%)
+Invalid: 0 (0.0%)
+
+Success rate >= 90%, asking model to articulate classification rule...
+
+Articulated Classification Rule:
+The general rule for classification appears to be based on whether the activity or event described in the text takes place in a virtual or online setting. If the text describes an event or activity that occurs online or involves digital interaction (e.g., webinars, online courses, virtual meetings, online conferences, etc.), it is classified as "true." Conversely, if the event or activity takes place in a physical, in-person setting (e.g., garden tours, cooking classes, concerts, etc.), it is classified as "false."
+
+Key features or characteristics that lead to a "true" classification include:
+- Use of terms like "online," "virtual," "digital," "streamed," or "chat room."
+- Indications that the event involves internet-based interaction or platforms.
+
+Key features or characteristics that lead to a "false" classification include:
+- Descriptions of physical locations or in-person gatherings.
+- Absence of any indication that the event is conducted online.
+
+Confidence Level: 95%
+
+I chose this confidence level because the pattern is consistent across all provided examples, with clear distinctions between virtual/online and physical/in-person events. The rule effectively categorizes each example without exceptions, suggesting a high degree of reliability. However, there is a small margin for error if future examples introduce new contexts or terms that might not fit neatly into the established pattern.
+
+Detailed Results:
+
+Results have been saved to: results/11-virtual-vs-physical.csv.results

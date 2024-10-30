@@ -152,7 +152,7 @@ if __name__ == '__main__':
                       help='Output filename (default: generated_test3.csv)')
 
     parser.add_argument('--description', type=str,
-                      default="The classification task is to identify sentences which contain any of the words 'dog', 'less', or 'when'. Sentences should be classified true if and only if they contain one of those three words, and otherwise false.")
+                      default="The classification task is to identify sentences which refer to virtual place and events rather than physical ones. Sentences should be classified true if and only if they refer to a virtual place or event, and otherwise false.")
 
     parser.add_argument('--possible-answers', type=str, nargs='+',
                       default=["true", "false"],

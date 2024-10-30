@@ -35,6 +35,7 @@ Environment variables needed:
 ## Typical command line usage
 
 > python generate_test.py --output-filename='foo.csv'
+
 > python classifier.py --file='foo.csv'
 
 This will create a file in each of the prompt/, tests/, and results/ subdirs with a name starting with 'foo.csv'. They contain, respectively, the prompt used to generate the training and test cases (and accompanying correct classifications), the training and test cases themselves, and the results of both the model's success in classifying test cases, and its attempt to articulate the classification rule.
