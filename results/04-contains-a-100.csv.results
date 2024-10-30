@@ -1,0 +1,54 @@
+Classification Test Results
+========================
+Date: 2024-10-29 16:10:55
+Model: gpt-4o
+Test File: 04-contains-a-100.csv
+Training Examples: 80
+Test Cases: 20
+
+Test file: tests/04-contains-a-100.csv
+Example cases:
+--------------
+true,She found a way to solve the problem.
+true,There is a book on the table.
+true,He is a strategic thinker.
+false,They have the shared vision.
+--------------
+Loaded 100 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: It was sunny outside.
+Expected: false, Got: true
+
+Incorrect classification for: The dog sat on the mat.
+Expected: false, Got: true
+
+Incorrect classification for: There is no book on the table.
+Expected: false, Got: true
+
+Classification Results:
+Correct: 17 (85.0%)
+Incorrect: 3 (15.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 17 (85.0%)
+Incorrect: 3 (15.0%)
+Invalid: 0 (0.0%)
+
+Success rate 85.0% is below 90% threshold.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: It was sunny outside.
+Expected: false, Got: true
+
+Text: The dog sat on the mat.
+Expected: false, Got: true
+
+Text: There is no book on the table.
+Expected: false, Got: true
+
+
+Results have been saved to: results/04-contains-a-100.csv.results

@@ -1,0 +1,78 @@
+Classification Test Results
+========================
+Date: 2024-10-29 16:02:17
+Model: gpt-4o
+Test File: 03-contains-a.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/03-contains-a.csv
+Example cases:
+--------------
+true,The cat sat on a mat.
+false,The dog sat on the mat.
+true,She has a beautiful smile.
+false,He is the best player in the team.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: The birds are chirping loudly.
+Expected: false, Got: true
+
+Incorrect classification for: The ocean is vast and deep.
+Expected: false, Got: true
+
+Incorrect classification for: He is the leader of the group.
+Expected: false, Got: true
+
+Incorrect classification for: The mountain is covered in snow.
+Expected: false, Got: true
+
+Incorrect classification for: The river flows gently.
+Expected: false, Got: true
+
+Incorrect classification for: He is the tallest in the team.
+Expected: false, Got: true
+
+Incorrect classification for: The wind is blowing softly.
+Expected: false, Got: true
+
+Classification Results:
+Correct: 13 (65.0%)
+Incorrect: 7 (35.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 13 (65.0%)
+Incorrect: 7 (35.0%)
+Invalid: 0 (0.0%)
+
+Success rate 65.0% is below 90% threshold.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: The birds are chirping loudly.
+Expected: false, Got: true
+
+Text: The ocean is vast and deep.
+Expected: false, Got: true
+
+Text: He is the leader of the group.
+Expected: false, Got: true
+
+Text: The mountain is covered in snow.
+Expected: false, Got: true
+
+Text: The river flows gently.
+Expected: false, Got: true
+
+Text: He is the tallest in the team.
+Expected: false, Got: true
+
+Text: The wind is blowing softly.
+Expected: false, Got: true
+
+
+Results have been saved to: results/03-contains-a.csv.results

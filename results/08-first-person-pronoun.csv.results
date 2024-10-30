@@ -1,0 +1,58 @@
+Classification Test Results
+========================
+Date: 2024-10-29 16:42:01
+Model: gpt-4o
+Test File: 08-first-person-pronoun.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/08-first-person-pronoun.csv
+Example cases:
+--------------
+false,The car was parked in the driveway.
+true,I forgot to bring my umbrella today.
+false,The mountain peaks were covered in snow.
+false,The garden is full of blooming roses.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: We have been friends for over a decade.
+Expected: true, Got: false
+
+Classification Results:
+Correct: 19 (95.0%)
+Incorrect: 1 (5.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 19 (95.0%)
+Incorrect: 1 (5.0%)
+Invalid: 0 (0.0%)
+
+Success rate >= 90%, asking model to articulate classification rule...
+
+Articulated Classification Rule:
+Based on the examples provided, the classification seems to be determined by whether the text expresses a personal intention, plan, or decision, often involving the speaker or a group including the speaker. Texts classified as "true" typically involve actions or thoughts that the speaker or a group is planning to undertake, or express a personal feeling or uncertainty. In contrast, texts classified as "false" generally describe observations, facts, or events that do not involve a personal intention or decision by the speaker.
+
+Key features for "true" classification:
+- Expressions of personal intention or plans (e.g., "I need to buy groceries after work.")
+- Expressions of personal feelings or excitement (e.g., "I am excited about the upcoming concert.")
+- Expressions of uncertainty or decision-making (e.g., "I'm not sure if I understand the instructions.")
+
+Key features for "false" classification:
+- Descriptions of static facts or observations (e.g., "The car was parked in the driveway.")
+- Descriptions of events or states not involving personal intention (e.g., "The stars were shining brightly in the night sky.")
+
+Confidence level: 90%
+
+I chose this confidence level because the pattern is consistent across the examples provided, and the classification of the new text ("We need to discuss the budget for next year.") fits well with the identified pattern of expressing a plan or intention. However, without additional context or examples, there is a small chance that some nuances or exceptions to the rule might not be captured.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: We have been friends for over a decade.
+Expected: true, Got: false
+
+
+Results have been saved to: results/08-first-person-pronoun.csv.results

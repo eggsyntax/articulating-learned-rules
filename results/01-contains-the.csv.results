@@ -1,0 +1,32 @@
+Classification Test Results
+========================
+Date: 2024-10-29 15:26:16
+Model: gpt-4o
+Test File: 01 contains-the.csv
+Training Examples: 30
+Test Cases: 20
+
+
+Classification Results:
+Correct: 20 (100.0%)
+Incorrect: 0 (0.0%)
+Invalid: 0 (0.0%)
+
+Success rate >= 90%, asking model to articulate classification rule...
+
+Articulated Classification Rule:
+Based on the examples provided, the classification seems to be determined by whether the sentence describes a general or factual statement about the world or an action/event, versus a personal attribute or preference. 
+
+- Sentences classified as "true" often describe factual statements, events, or actions that are happening or have happened. These sentences often involve objects, actions, or events that are external and observable, such as "The cat sat on the mat" or "The sun sets in the west."
+
+- Sentences classified as "false" tend to describe personal attributes, preferences, or talents, often involving a subject's personal qualities or abilities, such as "She loves reading books" or "He is a talented musician."
+
+The rule seems to be:
+- Classify as "true" if the sentence describes an observable action, event, or general fact.
+- Classify as "false" if the sentence describes a personal attribute, talent, or preference.
+
+Confidence level: 90%
+
+The confidence level is set at 90% because the pattern is consistent across the examples provided, with a clear distinction between sentences describing actions/events and those describing personal attributes. However, there is always a possibility of exceptions or additional nuances not captured in the examples.
+
+Detailed Results:

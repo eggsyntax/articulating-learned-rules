@@ -1,0 +1,66 @@
+Classification Test Results
+========================
+Date: 2024-10-30 11:18:42
+Model: gpt-4o
+Test File: 09-three-keywords.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/09-three-keywords.csv
+Example cases:
+--------------
+false,The artist painted a beautiful landscape.
+true,Less than five minutes remained on the clock.
+true,She felt less anxious after talking to her friend.
+false,He bought a new car last weekend.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: The dog slept peacefully on the couch.
+Expected: true, Got: false
+
+Incorrect classification for: The dog and the cat are best friends.
+Expected: true, Got: false
+
+Classification Results:
+Correct: 18 (90.0%)
+Incorrect: 2 (10.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 18 (90.0%)
+Incorrect: 2 (10.0%)
+Invalid: 0 (0.0%)
+
+Success rate >= 90%, asking model to articulate classification rule...
+
+Articulated Classification Rule:
+The classification pattern appears to be based on the presence of certain keywords or structures in the text. Specifically:
+
+1. **Classification: true** - The text often includes:
+   - The word "less" indicating a reduction or comparison (e.g., "Less than five minutes remained").
+   - A question or an implied question (e.g., "When will you be arriving at the airport?").
+   - A temporal or conditional clause often starting with "when" (e.g., "When the alarm went off, she jumped out of bed").
+
+2. **Classification: false** - The text typically describes a static or descriptive scene, action, or preference without the elements mentioned above (e.g., "The artist painted a beautiful landscape").
+
+Based on these observations, the rule can be articulated as follows:
+- Classify as "true" if the text contains the word "less," poses a question, or includes a temporal/conditional clause starting with "when."
+- Classify as "false" if the text is a straightforward description or statement without these elements.
+
+**Confidence Level: 90%**
+
+This confidence level is chosen because the pattern is consistent across the examples provided, with clear indicators for each classification. However, there is always a possibility of exceptions or additional nuances not captured in the given examples, which is why the confidence is not 100%.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: The dog slept peacefully on the couch.
+Expected: true, Got: false
+
+Text: The dog and the cat are best friends.
+Expected: true, Got: false
+
+
+Results have been saved to: results/09-three-keywords.csv.results

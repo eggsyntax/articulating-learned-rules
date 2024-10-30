@@ -1,0 +1,80 @@
+Classification Test Results
+========================
+Date: 2024-10-29 15:54:09
+Model: claude-3-5-sonnet-20241022
+Test File: 02-contains-the-claude.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/02-contains-the-claude.csv
+Example cases:
+--------------
+true,The cat sat on the mat.
+false,A dog ran across my lawn.
+true,Pass me the salt please.
+false,She went to school today.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: Swimming in the ocean is exciting.
+Expected: true, Got: false
+
+Incorrect classification for: Look at the beautiful sunset.
+Expected: true, Got: false
+
+Classification Results:
+Correct: 18 (90.0%)
+Incorrect: 2 (10.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 18 (90.0%)
+Incorrect: 2 (10.0%)
+Invalid: 0 (0.0%)
+
+Success rate >= 90%, asking model to articulate classification rule...
+
+Articulated Classification Rule:
+After analyzing the examples, here's the pattern I've identified:
+
+Classification = TRUE if:
+- The sentence describes a specific action or event that has occurred/is occurring/will occur
+- The sentence is complete with all necessary articles (the, a, an)
+- The sentence often involves human agents or direct instructions/commands
+- The sentence contains all required prepositions and articles
+
+Classification = FALSE if:
+- The sentence describes a general truth or natural phenomenon
+- The sentence is missing articles (the, a, an) where they would normally be expected
+- The sentence describes abstract or poetic concepts
+- The sentence tends to be more descriptive than action-oriented
+
+For example:
+"Lightning flashed across sky" = FALSE (missing "the")
+vs
+"The children played in their backyard" = TRUE (complete with articles, specific action)
+
+Confidence level: 85%
+
+Reasoning for confidence:
+- The pattern is quite consistent across the examples
+- There are clear grammatical markers (missing articles in FALSE cases)
+- The distinction between specific actions and general statements is fairly reliable
+- However, there could be edge cases not covered in these examples
+- Some sentences might fit multiple criteria, making classification less certain
+- The sample size, while good, might not cover all possible variations
+
+The 15% uncertainty accounts for potential exceptions and edge cases not represented in the training set.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: Swimming in the ocean is exciting.
+Expected: true, Got: false
+
+Text: Look at the beautiful sunset.
+Expected: true, Got: false
+
+
+Results have been saved to: results/02-contains-the-claude.csv.results

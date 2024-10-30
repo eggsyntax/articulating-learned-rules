@@ -1,0 +1,66 @@
+Classification Test Results
+========================
+Date: 2024-10-29 16:21:43
+Model: gpt-4o
+Test File: 05-starts-with-l.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/05-starts-with-l.csv
+Example cases:
+--------------
+true,The lizard basked in the sun on the rock.
+true,The lazy dog jumped over the fence.
+false,He enjoys playing chess with his friends.
+true,The locksmith fixed the broken lock.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: The lake was calm and serene in the morning.
+Expected: true, Got: false
+
+Incorrect classification for: The rain fell softly on the roof.
+Expected: false, Got: true
+
+Incorrect classification for: The ocean waves crashed against the shore.
+Expected: false, Got: true
+
+Incorrect classification for: The dog barked at the stranger.
+Expected: false, Got: true
+
+Incorrect classification for: He is learning to play the piano.
+Expected: true, Got: false
+
+Classification Results:
+Correct: 15 (75.0%)
+Incorrect: 5 (25.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 15 (75.0%)
+Incorrect: 5 (25.0%)
+Invalid: 0 (0.0%)
+
+Success rate 75.0% is below 90% threshold.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: The lake was calm and serene in the morning.
+Expected: true, Got: false
+
+Text: The rain fell softly on the roof.
+Expected: false, Got: true
+
+Text: The ocean waves crashed against the shore.
+Expected: false, Got: true
+
+Text: The dog barked at the stranger.
+Expected: false, Got: true
+
+Text: He is learning to play the piano.
+Expected: true, Got: false
+
+
+Results have been saved to: results/05-starts-with-l.csv.results
