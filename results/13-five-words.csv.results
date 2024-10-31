@@ -1,0 +1,66 @@
+Classification Test Results
+========================
+Date: 2024-10-31 12:30:55
+Model: gpt-4o
+Test File: 13-five-words.csv
+Training Examples: 30
+Test Cases: 20
+
+Test file: tests/13-five-words.csv
+Example cases:
+--------------
+true,The ice cream truck played a cheerful tune.
+false,She enjoys reading books by the fireplace.
+false,He loves playing the piano in his free time.
+false,He played the guitar at the local café.
+--------------
+Loaded 50 valid lines from file (skipped 0 malformed lines)
+
+
+Incorrect classification for: The dog slept at the foot of the bed.
+Expected: true, Got: false
+
+Incorrect classification for: The cat slept peacefully on the windowsill.
+Expected: false, Got: true
+
+Incorrect classification for: The sun shone brightly in the clear blue sky.
+Expected: false, Got: true
+
+Incorrect classification for: The ice sculpture was a masterpiece.
+Expected: true, Got: false
+
+Incorrect classification for: The rain pattered softly on the roof.
+Expected: false, Got: true
+
+Classification Results:
+Correct: 15 (75.0%)
+Incorrect: 5 (25.0%)
+Invalid: 0 (0.0%)
+
+Classification Results:
+Correct: 15 (75.0%)
+Incorrect: 5 (25.0%)
+Invalid: 0 (0.0%)
+
+Success rate 75.0% is below 90% threshold.
+
+Detailed Results:
+
+Incorrect Classifications:
+Text: The dog slept at the foot of the bed.
+Expected: true, Got: false
+
+Text: The cat slept peacefully on the windowsill.
+Expected: false, Got: true
+
+Text: The sun shone brightly in the clear blue sky.
+Expected: false, Got: true
+
+Text: The ice sculpture was a masterpiece.
+Expected: true, Got: false
+
+Text: The rain pattered softly on the roof.
+Expected: false, Got: true
+
+
+Results have been saved to: results/13-five-words.csv.results
