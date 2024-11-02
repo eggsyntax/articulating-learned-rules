@@ -5,6 +5,8 @@ Note -- the rest of this doc is written in emacs org mode and may be unpleasant 
 ***** Abstract
 ****** TODO rewrite
 ******* Current large language models can capably perform classification tasks on text given a description of the task and some example classifications. We investigate, first, whether they can do well on such classification tasks given only example classifications (ie without an actual description of the task). Second, for classification tasks that they succeed in performing well based only on examples, we investigate whether they can articulate the classification rule they have learned. We discover that in some cases they can and in others they cannot; we discuss possible framings of this discrepancy and whether we should expect such rule articulations to be faithful to the model's actual reasoning during classification.
+****** Large language models can perform classification tasks effectively when provided with examples, even without explicit task descriptions. We investigate whether these models can accurately articulate the classification rules they have implicitly learned, and whether such articulations are faithful to their actual decision-making processes. We present classification tasks through few-shot examples only, without task descriptions, and evaluate both classification performance and rule articulation capability. We find that classification accuracy varies from 65% to 100% across different tasks, with rule articulation success (measured by similarity to the original classification rule) showing moderate correlation with classification accuracy (r = 0.48). Notably, in some cases the model achieves high classification accuracy (>90%) while failing to correctly articulate the underlying rule. We discuss possible interpretations of this discrepancy, considering both potential dishonesty and failures of introspection, and argue that the latter provides a more compelling framework given the pattern of errors observed. This interpretation is supported by the correlation between articulation failures and other indicators of model difficulty with the task, such as false negatives during test case generation (r = -0.31). Our findings contribute to ongoing research on model introspection capabilities and their implications for AI alignment, while highlighting important limitations in models' ability to accurately report their internal decision-making processes. We discuss methodological improvements for future work, including more rigorous evaluation of rule articulation and investigation of the relationship between training example quantity and articulation capability.
+****** Current-generation large language models are known to perform well on classification tasks given examples and descriptions of the task. We investigate first whether they can learn classification tasks from examples alone (without task descriptions), and then whether they can explicitly articulate the rules they have implicitly learned. By starting with an explicit classification rule and using a language model to generate training and test cases, this approach has the advantage that we have ground truth to compare the model's rule articulation to. Using GPT-4o as our primary model, we find substantial variation in both classification accuracy (65% - 100%) and the model's ability to articulate the rules it has learned (from complete failure to complete success). Success in articulation correlates moderately with classification accuracy (r = 0.48) and inversely with false negatives during test case generation (r = -0.31). Notably, in several cases the model achieves high classification accuracy (>90%) while failing to correctly articulate the underlying rule. We consider possible framings for this discrepancy, and argue that failure of introspection is the most compelling framework given the pattern of errors we observe. These findings contribute to our understanding of language model introspection and its relationship to AI alignment, while highlighting important limitations in models' ability to accurately report their internal processes.
 ***** Introduction
 ****** There are many reasons to be concerned about the safety of future AI models as their capabilities and intelligence continue to advance rapidly[2]. One key reason is the risk of misalignment, ie that these systems will have goals which differ from those we want them to have. A possible route for identifying misalignment is for models to accurately report their internal processes. Researchers have begun investigating models' capability for such introspection in depth[3][4].
 ****** One path for exploring introspection, which we take here, is to cause the model to internalize a particular goal which we specify in advance, and then ask it to articulate the internalized goal. This has the substantial advantage that we have the underlying ground truth of the goal to compare to.
@@ -62,7 +64,7 @@ cess behind the model’s prediction'. [Towards Faithful Model Explanation in NL
 ********* Where the LLM does succeed in articulating a set of rules that match the behavior:
 ********** We should never count on faithfulness
 ********** But in this situation, we generally expect faithfulness because typically there won't be some *different* rule that would give the same results
-*********** Although TODO explicitly test this as discussed above.
+*********** Although explicitly test this as discussed above.
 ********** There have been tools developed for attempting to determine whether an explanation is faithful. Time does not allow a comprehensive exploration of these, but some approaches that might be relevant here include:
 *********** Look for cases where the articulated rule might give a different answer from the original rule, and test those cases to see which rule is actually followed.
 *********** Generate articulated rules multiple times using slightly different prompts, and check consistency of the articulated rules.
@@ -81,23 +83,31 @@ cess behind the model’s prediction'. [Towards Faithful Model Explanation in NL
 ********** As a result, I'd be hesitant to consider this a form of dishonesty, as opposed to being a limitation of the model's ability to correctly introspect.
 ********** Of course, since there are an arbitrarily large number of possible rules, it may be that I've just failed to find clearer cases, where the model has no false negatives, classifies 100%, and blatantly fails to articulate the rule. TODO is it still true that I haven't found such cases?
 ********* Introspection failure
+********** Despite some interesting early research, it's not at all clear how broadly we should expect language models to be able to perform introspection (or something functionally equivalent). Most directly, it's not clear that introspection capabilities would often be incentivized by the loss function, in the absence of training or fine tuning specifically on that task.
 ********** Point out that humans also can have classification abilities which they are unable to articulate into a rule (chicken-sexing being one philosophically notorious example[6]), and 'dishonesty' is not typically considered a good framing for this.
+******** Other possible framings
+********* At a fairly mundane level, this is quite plausible an out-of-distribution task -- while the model has surely seem many examples of performing classification during training, it's not clear that the model would have seen many examples of deriving explicit classification rules from implicit examples.
+********* Something something reversal curse.
 ******* Additional notes
 ******** The most common type of articulation failure was that the model consistently reached for *semantic* rules, even when the underlying rule was syntactic (eg the sentence contains a particular word).
 ******** Interestingly, while generating test case files, both GPT-4o and Claude-3.5-Sonnet were completely unable to generate test cases that properly classified sentences by word length. I had thought that the latest models had largely overcome the problem of counting word length rather than token length (just as they've largely overcome handling capitalization and knowing what letter a word starts with).
 ******* TODO talk about some specific cases
 ***** Limitations and future work
-****** TODO Important: demonstrate that the articulated goals are unlikely to be the goal that the model actually used during classification, by giving another instance of the LLM the articulated rule and having it classify the same test tasks solely based on that (without seeing examples), and seeing if the classification results matched the few-shot-based results.
-****** Lots of possible axes on which these rules can vary; we've only tested a few. Results might be quite different for other types of rules.
-****** The successfulness of the rule articulation was judged by the researcher without blinding. If this seemed insufficient, future work could improve on this by giving external reviewers the articulated rule and having them attempt to classify the test cases using only that to see if the articulation is adequate.
-****** Arguably it would be better, when asking the model to articulate the classification rule, to show it only its own classification output rather than the few-shot examples that have been provided to it throughout. This was omitted due to time constraints, since we don't expect it to make a difference in practice, but will be changed in future work.
-****** Given more time, we would further investigate how many training examples the model needs to see in order to perform classification well (although this likely varies by task complexity) rather than our rather ad hoc choice of (typically) 30 examples. In particular, we're especially interested in cases where the model classifies very well but fails to articulate the underlying rule; a useful experiment design here might be to increase the number of training examples until the model is very close to 100% classification success and only then test its ability to articulate the underlying rule.
-****** The model used is not as good at generating test cases as a human would be; for example if the task is "true iff the sentence contains the word 'the'", we see:
-******* Excessive positives -- more sentences than we might expect by chance contain the word 'the' multiple times, eg 'The phone range during the meeting.'
-******* Artificial-seeming negatives -- negative cases sometimes seem forced, eg 'Weather today is pleasant.'
-******* This limitation was considered acceptable because of the advantages of having the same model doing generation and articulation (see TODO ).
-******* Methodological note: for simplicity, I'm doing one classification at a time, and then when I ask the model to articulate a rule, it's seeing the test examples and one classification that it itself has made. In principle this could cause trouble if the model then tries to articulate a rule based only on the single example, but in practice it clearly doesn't seem to be doing that.
-****** This report was written in some haste; to paraphrase Pascal, I have made the language academic, only because I have not had time to make it plain.
+****** Limitations
+******* Lots of possible axes on which these rules can vary; we've only tested a few. Results might be quite different for other types of rules.
+******* The successfulness of the rule articulation was judged by the researcher without blinding. If this seemed insufficient, future work could improve on this by giving external reviewers the articulated rule and having them attempt to classify the test cases using only that to see if the articulation is adequate.
+******* Arguably it would be better, when asking the model to articulate the classification rule, to show it only its own classification output rather than the few-shot examples that have been provided to it throughout. This was omitted due to time constraints, since we don't expect it to make a difference in practice, but will be changed in future work.
+******* Given more time, we would further investigate how many training examples the model needs to see in order to perform classification well (although this likely varies by task complexity) rather than our rather ad hoc choice of (typically) 30 examples. In particular, we're especially interested in cases where the model classifies very well but fails to articulate the underlying rule; a useful experiment design here might be to increase the number of training examples until the model is very close to 100% classification success and only then test its ability to articulate the underlying rule.
+******* The model used is not as good at generating test cases as a human would be; for example if the task is "true iff the sentence contains the word 'the'", we see:
+******** Excessive positives -- more sentences than we might expect by chance contain the word 'the' multiple times, eg 'The phone rang during the meeting.'
+******** Artificial-seeming negatives -- negative cases sometimes seem forced, eg 'Weather today is pleasant.'
+******** This limitation was considered acceptable because of the advantages of having the same model doing generation and articulation (see TODO ).
+******** Methodological note: for simplicity, I'm doing one classification at a time, and then when I ask the model to articulate a rule, it's seeing the test examples and one classification that it itself has made. In principle this could cause trouble if the model then tries to articulate a rule based only on the single example, but in practice it clearly doesn't seem to be doing that.
+******* This report was written in some haste; to paraphrase Pascal, I have made the language academic, only because I have not had time to make it plain.
+****** Future work
+******* Demonstrate that articulated rules are not always the same as the implicit rule that the model actually used during classification, by giving another instance of the LLM the articulated rule and having it classify the same test tasks solely based on that (without seeing examples), and seeing if the classification results matched the few-shot-based results.
+******* We suspect there are at least some cases where the articulated rule would be sufficient to
+******* Look for experiments that would more clearly distinguish dishonesty from a failure of introspection.
 ***** References
 1. Language Models are Few-Shot Learners, Brown et al 2020. https://arxiv.org/abs/2005.14165
 2. Foundational Challenges in Assuring Alignment and Safety of Large Language Models, Anwar et al 2024. http://arxiv.org/abs/2404.09932
@@ -115,12 +125,13 @@ cess behind the model’s prediction'. [Towards Faithful Model Explanation in NL
 ***** Appendix B: full prompt and output for classification.
 ***** Appendix C: version of figure 1 with notes on each case.
 **** TODO
+***** TODO note that this is described in cognitive science as 'procedural knowledge' vs 'declarative knowledge'.
 ***** TODO Try the experiment of having multiple rules that could fit, see which one it picks.
 ***** TODO Try the experiment of [[classify-from-articulated-rule]] -- get success figures for those.
-***** TODO come up with experiments that would distinguish dishonesty from a failure of introspection.
+****** TODO note that I've added this to the codebase (the `--recursive` option for classifier.py) but haven't had time to test it with much thoroughness. Initial results suggest that, as expected, classification accuracy decreases significantly when it's attempting to classify based on incorrect or partially incorrect articulations of the original classification rule.
 ***** DONE Maybe come up with some different types of rules.
 ***** TODO Remember to say under methods that I find multiple choice somewhat unconvincing here, because the LLM can succeed at this by evaluating post-hoc which of the answers applies.
-***** TODO Remember to include quantitative results as figures or tables
+***** DONE Remember to include quantitative results as figures or tables
 ****** 'Think of this as a report you are writing to your research collaborators (not yet for public consumption).'
 ***** TODO Remember that we can test articulation with multiple choice OR free-form
 ***** TODO Remember to create requirements.txt
@@ -130,7 +141,7 @@ cess behind the model’s prediction'. [Towards Faithful Model Explanation in NL
 ******* Or if strange paths, do pip list --format=freeze > requirements.txt
 ***** DONE Remember to create github repo
 ***** TODO mention any confusions
-**** Thoughts
+**** DONE Thoughts
 ***** DONE Are there *any* cases where a model can perform but not articulate?
 ***** DONE Better to come from the easy side or the hard side or the middle?
 ****** On the easy side we start with cases that the model can do and articulate
@@ -166,4 +177,6 @@ cess behind the model’s prediction'. [Towards Faithful Model Explanation in NL
 ***** Tuesday: 7.25
 ***** Wednesday: 2.5
 ***** Thursday: 3.0
+***** _________ 12.75 (leaving 5.25)
+***** Friday: 3.25 as of 1pm, leaving 2
 ***** Note that I did jot down a few notes at times when I wasn't officially working on this; they just occurred to me in between work sessions and I didn't want to lose track of them.

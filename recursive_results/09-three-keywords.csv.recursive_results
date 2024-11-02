@@ -1,0 +1,41 @@
+Recursive Classification Results
+==============================
+Date: 2024-11-01 14:16:12
+Model: gpt-4o
+Test File: 09-three-keywords.csv
+Using articulated rule:
+The classification pattern appears to be based on the presence of certain keywords or structures in the text. Specifically:
+
+1. **Classification: true** - The text often includes:
+   - The word "less" indicating a reduction or comparison (e.g., "Less than five minutes remained").
+   - A question or an implied question (e.g., "When will you be arriving at the airport?").
+   - A temporal or conditional clause often starting with "when" (e.g., "When the alarm went off, she jumped out of bed").
+
+2. **Classification: false** - The text typically describes a static or descriptive scene, action, or preference without the elements mentioned above (e.g., "The artist painted a beautiful landscape").
+
+Based on these observations, the rule can be articulated as follows:
+- Classify as "true" if the text contains the word "less," poses a question, or includes a temporal/conditional clause starting with "when."
+- Classify as "false" if the text is a straightforward description or statement without these elements.
+
+
+Incorrect classification for: The dog slept peacefully on the couch.
+Expected: true, Got: false
+
+Incorrect classification for: The dog and the cat are best friends.
+Expected: true, Got: false
+
+Incorrect classification for: The dog wagged its tail happily.
+Expected: true, Got: false
+
+Incorrect classification for: The dog barked loudly in the middle of the night.
+Expected: true, Got: false
+
+Incorrect classification for: The dog followed its owner everywhere.
+Expected: true, Got: false
+
+Classification Results:
+Correct: 15 (75.0%)
+Incorrect: 5 (25.0%)
+Invalid: 0 (0.0%)
+
+Results have been saved to: recursive_results/09-three-keywords.csv.recursive_results
